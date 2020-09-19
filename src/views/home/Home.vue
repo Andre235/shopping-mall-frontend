@@ -6,8 +6,8 @@
     <home-swiper :banners="banners"/>
     <home-recommend :recommends="recommends"/>
     <home-feature/>
-    <tab-control :titles="titles" class="tab-bar-control"/>
-    <goods-list :goods-list="goods['pop'].list"/>
+    <tab-control class="tab-bar-control" :titles="titles" @tabClick="tabBarClick"/>
+    <goods-list :goods-list="showGoods"/>
 
     <ul>
       <li>列表1</li>
@@ -95,7 +95,11 @@
           "pop": { page: 0, list: [] },
           "new": { page: 0, list: [] },
           "sell": { page: 0, list: [] }
-        }
+        },
+        goodsList: [
+          "pop", "new", "sell"
+        ],
+        goodsType: "pop"
       }
     },
     created() { //使用created声明周期函数，组件一旦创建好后就发送网络请求
@@ -104,7 +108,17 @@
       this.homeGoods("new");
       this.homeGoods("sell");
     },
+    computed: {
+      showGoods() {
+        return this.goods[this.goodsType].list
+      }
+    },
     methods: {
+      // 事件监听相关方法
+      tabBarClick(index) {
+        this.goodsType = this.goodsList[index]
+      },
+      // 网络请求相关方法
       homeMultiData() {
         getHomeMultiData().then(res => {
           this.banners = res.data.banner.list;

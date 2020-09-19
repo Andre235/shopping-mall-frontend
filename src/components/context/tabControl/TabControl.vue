@@ -27,7 +27,8 @@
     },
     methods: {
       itemClick(index) {
-        this.currentIndex = index
+        this.currentIndex = index;
+        this.$emit("tabClick",index) //子组件内部触发监听事件，把该事件emit到父组件中
       }
     }
   }
