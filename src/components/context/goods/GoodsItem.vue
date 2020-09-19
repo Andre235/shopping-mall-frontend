@@ -26,6 +26,9 @@
 <style scoped>
   .goods-item {
     padding-bottom: 40px;
+    position: relative;
+
+    width: 48%;
   }
 
   .goods-item img {
@@ -66,6 +69,6 @@
     top: -1px;
     width: 14px;
     height: 14px;
-    background:  url("~assert/img/common/collect.svg");
+    background:  url("~assets/img/common/collect.svg") 0 0/14px 14px
   }
 </style>

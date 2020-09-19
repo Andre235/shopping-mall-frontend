@@ -138,6 +138,7 @@
   }
   .tab-bar-control {
     position: sticky; /*对该组件实现吸顶效果*/
-    top: 44px  /*吸顶时上间距为44px*/
+    top: 44px;  /*吸顶时上间距为44px*/
+    z-index: 9;
   }
 </style>
