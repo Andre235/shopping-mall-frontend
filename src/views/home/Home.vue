@@ -6,6 +6,8 @@
     <home-swiper :banners="banners"/>
     <home-recommend :recommends="recommends"/>
     <home-feature/>
+    <tab-control :titles="titles"/>
+
     <ul>
       <li>列表1</li>
       <li>列表2</li>
@@ -17,11 +19,14 @@
 </template>
 
 <script>
-  import NavBar from "components/common/navbar/NavBar";
+  //业务相关组件
   import HomeSwiper from "./childComps/HomeSwiper";
   import HomeRecommend from "./childComps/HomeRecommend";
   import HomeFeature from "views/home/childComps/HomeFeature";
-
+  //公共组件
+  import NavBar from "components/common/navbar/NavBar";
+  import TabControl from "components/context/tabControl/TabControl";
+  //方法
   import {getHomeMultiData} from "network/homeAPI";
 
   export default {
@@ -30,12 +35,14 @@
       NavBar,
       HomeSwiper,
       HomeRecommend,
-      HomeFeature
+      HomeFeature,
+      TabControl
     },
     data() {
       return {
         banners: [],
-        recommends: []
+        recommends: [],
+        titles: ["流行", "新款", "精选"]
       }
     },
     created() { //使用created声明周期函数，组件一旦创建好后就发送网络请求
