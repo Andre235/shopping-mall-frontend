@@ -7,6 +7,7 @@
     <home-recommend :recommends="recommends"/>
     <home-feature/>
     <tab-control :titles="titles" class="tab-bar-control"/>
+    <goods-list :goods-list="goods['pop'].list"/>
 
     <ul>
       <li>列表1</li>
@@ -71,8 +72,9 @@
   //公共组件
   import NavBar from "components/common/navbar/NavBar";
   import TabControl from "components/context/tabControl/TabControl";
+  import GoodsList from "components/context/goods/GoodsList";
   //方法
-  import {getHomeMultiData} from "network/homeAPI";
+  import {getHomeMultiData, getHomeGoods} from "network/homeAPI";
 
   export default {
     name: "Home",
@@ -81,22 +83,42 @@
       HomeSwiper,
       HomeRecommend,
       HomeFeature,
-      TabControl
+      TabControl,
+      GoodsList
     },
     data() {
       return {
         banners: [],
         recommends: [],
-        titles: ["流行", "新款", "精选"]
+        titles: ["流行", "新款", "精选"],
+        goods: {
+          "pop": { page: 0, list: [] },
+          "new": { page: 0, list: [] },
+          "sell": { page: 0, list: [] }
+        }
       }
     },
     created() { //使用created声明周期函数，组件一旦创建好后就发送网络请求
-      getHomeMultiData().then(res => {
-        this.banners = res.data.banner.list;
-        this.recommends = res.data.recommend.list
-      })
+      this.homeMultiData();
+      this.homeGoods("pop");
+      this.homeGoods("new");
+      this.homeGoods("sell");
+    },
+    methods: {
+      homeMultiData() {
+        getHomeMultiData().then(res => {
+          this.banners = res.data.banner.list;
+          this.recommends = res.data.recommend.list
+        })
+      },
+      homeGoods(type) {
+        const page = this.goods[type].page + 1;
+        getHomeGoods(type, page).then(res => {
+          this.goods[type].list.push(...res.data.list)
+          this.goods[type].page += 1
+        })
+      }
     }
-
   }
 </script>
 
